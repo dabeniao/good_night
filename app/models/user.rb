@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   validates :name, presence: true
 
-  has_many :remember_tokens
+  has_many :remember_tokens, dependent: :destroy
 
   attr_accessor :remember_token_value
 
