@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_20_035258) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_20_035510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "relationships", force: :cascade do |t|
+    t.bigint "follower_user_id", null: false
+    t.bigint "following_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follower_user_id", "following_user_id"], name: "index_relationships_on_follower_user_id_and_following_user_id", unique: true
+    t.index ["following_user_id", "follower_user_id"], name: "index_relationships_on_following_user_id_and_follower_user_id", unique: true
+  end
 
   create_table "remember_tokens", force: :cascade do |t|
     t.bigint "user_id", null: false
