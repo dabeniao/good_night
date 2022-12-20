@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  resources :following_users, only: [:update, :destroy], defaults: {format: :json}
 end
