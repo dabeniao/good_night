@@ -17,14 +17,17 @@ class SleepSessionsController < ApplicationController
   def following
     since_timestamp = 1.week.ago
 
-    sleep_sessions = SleepSession.where(user: current_user.following_users).where("created_at > ?", since_timestamp).includes(:user)
+    sleep_sessions = SleepSession
+      .where(user: current_user.following_users)
+      .where("created_at > ?", since_timestamp)
+      .includes(:user)
 
     # Note
     # the `extract epoch` syntax is PostgreSQL only
     # use `timediff` instead for MySQL or MariaDB 
     sleep_sessions = sleep_sessions.order(Arel.sql("extract(epoch from woke_at - slept_at)"))
-    @sleep_sessions = sleep_sessions
 
+    @sleep_sessions = sleep_sessions
     # rendering is processed by jbuilder
   end
 
