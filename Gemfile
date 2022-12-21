@@ -37,6 +37,7 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem 'json'
+gem 'jbuilder'
 
 gem 'pg'
 gem 'activerecord-postgresql-adapter'
