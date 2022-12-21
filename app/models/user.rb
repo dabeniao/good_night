@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :following_users, through: :active_relationships, source: :following_user
   has_many :follower_users, through: :passive_relationships, source: :follower_user
 
+  has_many :sleep_sessions, dependent: :destroy
+
   attr_accessor :remember_token_value
 
   def follow(target_user)
