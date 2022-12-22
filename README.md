@@ -15,9 +15,14 @@ Request authentication is achieved by providing a bearer token in the `X-Auth-To
 
 Calling `User#remember` in rails console generates a new token.
 
+## Assumptions
+- no self following operation is allowed
+- users should clock-in a sleep_session after waking up, in one operation/request, instead of splitting it into two different operations (before sleeping and after waking up)
+- the endpoint that renders the sleep_sessions of current following users filters sleep sessions from 7 days ago (from current time), instead of a fixed starting-weekday-of-the-week (like Sunday).
+
 ## APIs
 - `POST` /sleep_sessions
-create a sleep_session for the user
+    - create a sleep_session for the user
 ```ruby
 # sample parameter format
 {
@@ -28,17 +33,17 @@ create a sleep_session for the user
 }
 ```
 - `GET` /sleep_sessions
-retrieve all the sleep_sessions of a user, ordered by `:created_at`
+    - retrieve all the sleep_sessions of a user, ordered by `:created_at`
 - `GET` /sleep_sessions/following
-retrieve all the sleep_sessions of all the users followed by the user, ordered by sleep duration
+    - retrieve all the sleep_sessions of all the users followed by the user, ordered by sleep duration
 
 - `PUT` /following_users/{id}
-follow the user with the specified user id.
-renders 404 if user cannot be found with the specified id
+    - follow the user with the specified user id.
+    - renders 404 if user cannot be found with the specified id
 
 - `DELETE` /following_users/{id}
-unfollow the user with the specified user id.
-renders 404 if user cannot be found with the specified id
+    - unfollow the user with the specified user id.
+    - renders 404 if user cannot be found with the specified id
 
 ## Notes
 - A PostgreSQL only function is used in `SleepSessionsController#following`.
